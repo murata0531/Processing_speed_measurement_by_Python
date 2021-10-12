@@ -1,0 +1,34 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    hostname: mysqldb
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_HOST: localhost
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - .\mysql_data:/var/lib/mysql
+      - .\init:/docker-entrypoint-initdb.d:ro
+ 
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask
+    hostname: flask
+    environment:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+    volumes:
+      - .\app:/var/www/app
+      - .\conf/app.conf:/etc/httpd/conf.d/app.conf
+    ports:
+    - "20022:20022"
+    - "80:80"
