@@ -1,34 +1,27 @@
-version: "3"
+version: '3'
+
 services:
-  mysqldb:
-    image: mysql:8.0
-    container_name: mysqldb
-    hostname: mysqldb
+  db:
+    image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
-      MYSQL_ROOT_HOST: localhost
-      TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ./mysql_data:/var/lib/mysql
-      - ./init:/docker-entrypoint-initdb.d:ro
- 
-  flask:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: flask
-    hostname: flask
-    environment:
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
-    volumes:
-      - ./app:/var/www/app
-      - ./conf/app.conf:/etc/httpd/conf.d/app.conf
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: 'django'
+      MYSQL_PASSWORD: 'django'
+      MYSQL_DATABASE: 'django'
     ports:
-    - "20022:20022"
-    - "80:80"
+      - 3306:3306
+    volumes:
+      - mysql:/var/lib/mysql
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    links:
+      - db
+
+volumes:
+  mysql:
+    driver: local
