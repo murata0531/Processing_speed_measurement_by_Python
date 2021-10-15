@@ -18,6 +18,7 @@ Pythonで処理速度を測るリポジトリ
     
     docker-compose run api bash
 
+
     # cd /usr/src/app/db
 
 マイグレーションファイル生成
@@ -31,7 +32,7 @@ Pythonで処理速度を測るリポジトリ
 シードを実行
 
     # seeds/xxx.py 
-    
+
 データベースの設定は ` app/settings.py ` の ` DATABASES ` 項目にある
 
 http://localhost:8000/docs 
