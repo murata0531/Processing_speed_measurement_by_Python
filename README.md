@@ -28,6 +28,10 @@ Pythonで処理速度を測るリポジトリ
 
     # alembic upgrade head
 
+シードを実行
+
+    # seeds/xxx.py 
+    
 データベースの設定は ` app/settings.py ` の ` DATABASES ` 項目にある
 
 http://localhost:8000/docs 
