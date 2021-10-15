@@ -38,4 +38,4 @@ ocker-compose run api bash
 
 データベースの設定は ` app/settings.py ` の ` DATABASES ` 項目にある
 
-http://localhost:8000/docs 
+http://localhost:8888/docs 
