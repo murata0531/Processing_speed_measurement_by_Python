@@ -4,6 +4,14 @@ Pythonで処理速度を測るリポジトリ
 
 単純な計算やデータベースアクセスの速度を測る
 
+環境
+
+FastAPI
+
+alembic
+
+sqlalchemy
+
 ## 構築
 
 各種コンテナをつなぐnetworkを設定
@@ -38,4 +46,4 @@ ocker-compose run api bash
 
 データベースの設定は ` app/settings.py ` の ` DATABASES ` 項目にある
 
-http://localhost:8888/docs 
+swaggerにアクセス → ` http://localhost:8888/docs `
