@@ -16,10 +16,13 @@ Pythonで処理速度を測るリポジトリ
 
 ## データベースマイグレーション
     
-    docker-compose run api bash
+```
+ocker-compose run api bash
+```
 
-
-    # cd /usr/src/app/db
+```
+# cd /usr/src/app/db
+```
 
 マイグレーションファイル生成
 
