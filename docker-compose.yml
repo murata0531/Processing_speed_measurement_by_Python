@@ -1,29 +1,55 @@
-version: "3"
+version: '3'
 
 services:
-  db:
-    image: mysql:5.7
-    container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: fast_db
-      MYSQL_USER: fastuser
-      MYSQL_PASSWORD: fastpass
-    volumes:
-      - ./db/data:/var/lib/mysql
-      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./db/initdb.d:/docker-entrypoint-initdb.d
-    ports:
-      - 3308:3308
-    command: --port 3308
-    tty: true
-
   api:
+    image: "fastapi_starter:1.0.0"
+    container_name: "fastapi_starter"
     depends_on:
       - db
-    container_name: "api"
-    build: ./be
+    build:
+      context: ./docker/api
+      dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8888:8000"
     volumes:
-      - ./be/api:/usr/src/server
+      - ./app:/usr/src/app/app:cached
+      - ./db:/usr/src/app/db:cached
+      - ./scripts:/usr/src/app/scripts:cached
+    working_dir: /usr/src/app/scripts
+    command: bash -c "./run.sh"
+    networks:
+      - fastapi_network
+    environment:
+      APP_ENV: "development"
+      TZ: "Asia/Tokyo"
+    env_file:
+      - .env.development
+  db:
+    image: "fastapi_starter_db:0.1.0"
+    container_name: "fastapi_starter_db"
+    build:
+      context: ./docker/db
+      dockerfile: Dockerfile
+    restart: always
+    tty: true
+    expose:
+      - "3306"
+    volumes:
+      - ./docker/db/conf.d:/etc/mysql/conf.d:cached
+      - ./log/db:/var/log/mysql:cached
+    networks:
+      - fastapi_network
+    environment:
+      APP_ENV: "development"
+      TZ: "Asia/Tokyo"
+    env_file:
+      - .env.development
+
+networks:
+  default:
+    external:
+      name: bridge
+  fastapi_network:
+    name: fastapi_network
+    driver: bridge
+    external: true
