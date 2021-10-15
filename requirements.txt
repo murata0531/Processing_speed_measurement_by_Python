@@ -1,6 +1,0 @@
-Django>=2.2.4
-django-filter==1.1.0
-djangorestframework>=3.0.0
-pytest-django==2.9.1
-pytest==2.8.5
-mysqlclient==1.4.6
