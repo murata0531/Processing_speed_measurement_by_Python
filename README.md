@@ -42,7 +42,7 @@ ocker-compose run api bash
 
 シードを実行
 
-    # seeds/xxx.py 
+    # python seeds/xxx.py 
 
 データベースの設定は ` app/settings.py ` の ` DATABASES ` 項目にある
 
